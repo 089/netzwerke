@@ -1,0 +1,6 @@
+c:\users\kevin\documents\visual studio 2015\Projects\CatServer\CatServer\bin\Debug\CatServer.exe.config
+c:\users\kevin\documents\visual studio 2015\Projects\CatServer\CatServer\bin\Debug\CatServer.exe
+c:\users\kevin\documents\visual studio 2015\Projects\CatServer\CatServer\bin\Debug\CatServer.pdb
+c:\users\kevin\documents\visual studio 2015\Projects\CatServer\CatServer\obj\Debug\CatServer.csprojResolveAssemblyReference.cache
+c:\users\kevin\documents\visual studio 2015\Projects\CatServer\CatServer\obj\Debug\CatServer.exe
+c:\users\kevin\documents\visual studio 2015\Projects\CatServer\CatServer\obj\Debug\CatServer.pdb

@@ -1,0 +1,9 @@
+service u1
+{
+	port		= 8081
+	socket_type	= stream
+	protocol	= tcp
+	wait		= no
+	user		= root
+	server		= /usr/bin/U1_Aufg2_Gruppe_x.sh
+}

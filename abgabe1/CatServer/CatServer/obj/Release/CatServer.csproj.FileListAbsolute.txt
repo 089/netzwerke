@@ -1,0 +1,5 @@
+C:\Users\Kevin\Documents\Visual Studio 2015\Projects\CatServer\CatServer\bin\Release\CatServer.exe.config
+C:\Users\Kevin\Documents\Visual Studio 2015\Projects\CatServer\CatServer\bin\Release\CatServer.exe
+C:\Users\Kevin\Documents\Visual Studio 2015\Projects\CatServer\CatServer\bin\Release\CatServer.pdb
+C:\Users\Kevin\Documents\Visual Studio 2015\Projects\CatServer\CatServer\obj\Release\CatServer.exe
+C:\Users\Kevin\Documents\Visual Studio 2015\Projects\CatServer\CatServer\obj\Release\CatServer.pdb
