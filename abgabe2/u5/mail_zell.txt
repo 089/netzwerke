@@ -1,0 +1,53 @@
+Received: from BADWLRZ-SW13MB6.ads.mwn.de (2001:4ca0:0:108::154) by
+ BADWLRZ-SW13MB3.ads.mwn.de (2001:4ca0:0:108::151) with Microsoft SMTP Server
+ (TLS) id 15.0.1130.7 via Mailbox Transport; Tue, 10 Nov 2015 18:28:12 +0100
+Received: from postforw2.mail.lrz.de (2001:4ca0:0:116::a9c:63e) by
+ BADWLRZ-SW13MB6.ads.mwn.de (2001:4ca0:0:108::154) with Microsoft SMTP Server
+ (TLS) id 15.0.1130.7; Tue, 10 Nov 2015 18:28:11 +0100
+Received: from mailout2.lrz.de (lxmhs66.srv.lrz.de [IPv6:2001:4ca0:0:116::a9c:6a6])
+	by postforw2.mail.lrz.de (Postfix) with ESMTP id 3nwGP75pyTzyZJ
+	for <zell@hm.edu>; Tue, 10 Nov 2015 18:28:11 +0100 (CET)
+Received: from lxmhs66.srv.lrz.de (localhost [127.0.0.1])
+	by mailout2.lrz.de (Postfix) with ESMTP id 3nwGP75XY6zyVD
+	for <zell@hm.edu>; Tue, 10 Nov 2015 18:28:11 +0100 (CET)
+X-Virus-Scanned: by amavisd-new at lrz.de in lxmhs66.srv.lrz.de
+Received: from mailout2.lrz.de ([127.0.0.1])
+	by lxmhs66.srv.lrz.de (lxmhs66.srv.lrz.de [127.0.0.1]) (amavisd-new, port 10002)
+	with ESMTP id 0fon8fiun6wP for <zell@hm.edu>;
+	Tue, 10 Nov 2015 18:28:11 +0100 (CET)
+Received: from mailrelay4.rz.fh-muenchen.de (mailrelay4.rz.fh-muenchen.de [129.187.244.104])
+	by mailout2.lrz.de (Postfix) with ESMTP id 3nwGP721pSzybP
+	for <zell@hm.edu>; Tue, 10 Nov 2015 18:28:11 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by mailrelay4.rz.fh-muenchen.de (Postfix) with ESMTP id 32D54385CCC11
+	for <zell@hm.edu>; Tue, 10 Nov 2015 18:28:11 +0100 (CET)
+X-Virus-Scanned: amavisd-new at hm.edu
+Received: from mailrelay4.rz.fh-muenchen.de ([127.0.0.1])
+	by localhost (mailrelay4.rz.fh-muenchen.de [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id q1ta6Pvnqjox for <zell@hm.edu>;
+	Tue, 10 Nov 2015 18:28:11 +0100 (CET)
+Received: from cs.hm.edu (b150.hm.vpn.lrz.de [129.187.52.150])
+	by mailrelay4.rz.fh-muenchen.de (Postfix) with SMTP id 28ACE385CAC93
+	for <zell@hm.edu>; Tue, 10 Nov 2015 18:27:34 +0100 (CET)
+To: Sarah Meier <sarah@kindergarten.de>
+From: Walter Weihnachtsmann <weihnachtsmann.walter@heaven.org>
+Subject: Wunschzettel - bitte beachten
+Date: Tue, 10 Nov 2015 17:42:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+ Thunderbird/38.3.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20151110172811.32D54385CCC11@mailrelay4.rz.fh-muenchen.de>
+Return-Path: martin.zell@hm.edu
+X-MS-Exchange-Organization-Network-Message-Id: be714ba9-d509-436e-7ce9-08d2e9f44ee7
+X-MS-Exchange-Organization-AVStamp-Mailbox: Sophos;-1716141566;0;PM
+X-MS-Exchange-Organization-AuthSource: BADWLRZ-SW13MB6.ads.mwn.de
+X-MS-Exchange-Organization-AuthAs: Anonymous
+MIME-Version: 1.0
+
+Hi W,
+
+ich will heuer nichts.
+
+Danke
+M
