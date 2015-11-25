@@ -22,7 +22,7 @@ public class UDPServer {
         //boolean resetPerformanceTimer = true;
         long performanceTimer = System.currentTimeMillis();
         double performance = 0;
-        List<Double> performanceList = new ArrayList<>();
+        ArrayList<Double> performanceList = new ArrayList<>();
 
         int countPackets = 0;
         int countTotalPackets = 0;
@@ -105,7 +105,11 @@ public class UDPServer {
             e.printStackTrace();
         }
         System.out.println("UDP server stopped");
-        System.out.printf("Es wurden %d Pakete empfangen.", countTotalPackets);
+        System.out.printf("Es wurden %d Pakete empfangen.\n", countTotalPackets);
+        System.out.println("Mittelwert: " + new Calculations().average(performanceList));
+        System.out.println("Standartabweichung: " + new Calculations().standardDeviation(performanceList));
+
 
     }
+
 }

@@ -28,7 +28,7 @@ public class UDPClient {
 
         int transmissionTime = 30; // in seconds
 
-        int N = 250; // delay step
+        int N = 100; // delay step
 
         long k = 1000; // delay in millis
 
