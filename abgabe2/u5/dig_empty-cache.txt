@@ -1,0 +1,35 @@
+
+; <<>> DiG 9.9.5-3-Ubuntu <<>> www.gi.de
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 46479
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 13, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.gi.de.			IN	A
+
+;; ANSWER SECTION:
+www.gi.de.		1709	IN	A	217.69.92.93
+
+;; AUTHORITY SECTION:
+.			7488	IN	NS	k.root-servers.net.
+.			7488	IN	NS	h.root-servers.net.
+.			7488	IN	NS	b.root-servers.net.
+.			7488	IN	NS	e.root-servers.net.
+.			7488	IN	NS	j.root-servers.net.
+.			7488	IN	NS	l.root-servers.net.
+.			7488	IN	NS	f.root-servers.net.
+.			7488	IN	NS	g.root-servers.net.
+.			7488	IN	NS	d.root-servers.net.
+.			7488	IN	NS	c.root-servers.net.
+.			7488	IN	NS	m.root-servers.net.
+.			7488	IN	NS	a.root-servers.net.
+.			7488	IN	NS	i.root-servers.net.
+
+;; Query time: 0 msec
+;; SERVER: 192.168.0.254#53(192.168.0.254)
+;; WHEN: Tue Nov 24 19:34:43 CET 2015
+;; MSG SIZE  rcvd: 265
+

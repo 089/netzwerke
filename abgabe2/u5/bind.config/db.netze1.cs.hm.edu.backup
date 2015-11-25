@@ -1,0 +1,20 @@
+;; db.netze1.cs.hm.edu
+;; Forwardlookupzone für netze1.cs.hm.edu
+;;
+$TTL 2D
+;;@       IN      SOA     s.netze1.cs.hm.edu. (
+@       IN      SOA     netze1.cs.hm.edu. (
+                        2006032201      ; Serial
+                                8H      ; Refresh
+                                2H      ; Retry
+                                4W      ; Expire
+                                3H )    ; NX (TTL Negativ Cache)
+
+@                               IN      NS      s.netze1.cs.hm.edu.
+                                IN      A       192.168.0.254
+
+s		                IN      A       192.168.0.254
+a		                IN      A       192.168.0.1
+b				IN	A	192.168.0.2
+localhost                       IN      A       127.0.0.1
+

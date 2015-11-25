@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="pdml2html.xsl"?>
+<!-- You can find pdml2html.xsl in /usr/share/wireshark or at http://anonsvn.wireshark.org/trunk/wireshark/pdml2html.xsl. -->
+<pdml version="0" creator="wireshark/1.10.6" time="Tue Nov 24 18:32:26 2015" capture_file="/home/martin/ws1516/Netzwerke I/abgabe2/dns_5.pcapng">
+<packet>
+  <proto name="geninfo" pos="0" showname="General information" size="216">
+    <field name="num" pos="0" show="17" showname="Number" value="11" size="216"/>
+    <field name="len" pos="0" show="216" showname="Frame Length" value="d8" size="216"/>
+    <field name="caplen" pos="0" show="216" showname="Captured Length" value="d8" size="216"/>
+    <field name="timestamp" pos="0" show="Nov 22, 2015 19:04:01.834358000 CET" showname="Captured Time" value="1448215441.834358000" size="216"/>
+  </proto>
+  <proto name="frame" showname="Frame 17: 216 bytes on wire (1728 bits), 216 bytes captured (1728 bits) on interface 0" size="216" pos="0">
+    <field name="frame.interface_id" showname="Interface id: 0" size="0" pos="0" show="0"/>
+    <field name="frame.encap_type" showname="Encapsulation type: Ethernet (1)" size="0" pos="0" show="1"/>
+    <field name="frame.time" showname="Arrival Time: Nov 22, 2015 19:04:01.834358000 CET" size="0" pos="0" show="Nov 22, 2015 19:04:01.834358000"/>
+    <field name="frame.offset_shift" showname="Time shift for this packet: 0.000000000 seconds" size="0" pos="0" show="0.000000000"/>
+    <field name="frame.time_epoch" showname="Epoch Time: 1448215441.834358000 seconds" size="0" pos="0" show="1448215441.834358000"/>
+    <field name="frame.time_delta" showname="Time delta from previous captured frame: 0.028203000 seconds" size="0" pos="0" show="0.028203000"/>
+    <field name="frame.time_delta_displayed" showname="Time delta from previous displayed frame: 0.028203000 seconds" size="0" pos="0" show="0.028203000"/>
+    <field name="frame.time_relative" showname="Time since reference or first frame: 0.760649000 seconds" size="0" pos="0" show="0.760649000"/>
+    <field name="frame.number" showname="Frame Number: 17" size="0" pos="0" show="17"/>
+    <field name="frame.len" showname="Frame Length: 216 bytes (1728 bits)" size="0" pos="0" show="216"/>
+    <field name="frame.cap_len" showname="Capture Length: 216 bytes (1728 bits)" size="0" pos="0" show="216"/>
+    <field name="frame.marked" showname="Frame is marked: True" size="0" pos="0" show="1"/>
+    <field name="frame.ignored" showname="Frame is ignored: False" size="0" pos="0" show="0"/>
+    <field name="frame.protocols" showname="Protocols in frame: eth:ip:udp:dns" size="0" pos="0" show="eth:ip:udp:dns"/>
+    <field name="frame.coloring_rule.name" showname="Coloring Rule Name: UDP" size="0" pos="0" show="UDP"/>
+    <field name="frame.coloring_rule.string" showname="Coloring Rule String: udp" size="0" pos="0" show="udp"/>
+  </proto>
+  <proto name="eth" showname="Ethernet II, Src: RealtekU_12:35:02 (52:54:00:12:35:02), Dst: CadmusCo_56:e5:a8 (08:00:27:56:e5:a8)" size="14" pos="0">
+    <field name="eth.dst" showname="Destination: CadmusCo_56:e5:a8 (08:00:27:56:e5:a8)" size="6" pos="0" show="08:00:27:56:e5:a8" value="08002756e5a8">
+      <field name="eth.addr" showname="Address: CadmusCo_56:e5:a8 (08:00:27:56:e5:a8)" size="6" pos="0" show="08:00:27:56:e5:a8" value="08002756e5a8"/>
+      <field name="eth.lg" showname=".... ..0. .... .... .... .... = LG bit: Globally unique address (factory default)" size="3" pos="0" show="0" value="0" unmaskedvalue="080027"/>
+      <field name="eth.ig" showname=".... ...0 .... .... .... .... = IG bit: Individual address (unicast)" size="3" pos="0" show="0" value="0" unmaskedvalue="080027"/>
+    </field>
+    <field name="eth.src" showname="Source: RealtekU_12:35:02 (52:54:00:12:35:02)" size="6" pos="6" show="52:54:00:12:35:02" value="525400123502">
+      <field name="eth.addr" showname="Address: RealtekU_12:35:02 (52:54:00:12:35:02)" size="6" pos="6" show="52:54:00:12:35:02" value="525400123502"/>
+      <field name="eth.lg" showname=".... ..1. .... .... .... .... = LG bit: Locally administered address (this is NOT the factory default)" size="3" pos="6" show="1" value="1" unmaskedvalue="525400"/>
+      <field name="eth.ig" showname=".... ...0 .... .... .... .... = IG bit: Individual address (unicast)" size="3" pos="6" show="0" value="0" unmaskedvalue="525400"/>
+    </field>
+    <field name="eth.type" showname="Type: IP (0x0800)" size="2" pos="12" show="0x0800" value="0800"/>
+  </proto>
+  <proto name="ip" showname="Internet Protocol Version 4, Src: 10.0.2.3 (10.0.2.3), Dst: 10.0.2.15 (10.0.2.15)" size="20" pos="14">
+    <field name="ip.version" showname="Version: 4" size="1" pos="14" show="4" value="45"/>
+    <field name="ip.hdr_len" showname="Header length: 20 bytes" size="1" pos="14" show="20" value="45"/>
+    <field name="ip.dsfield" showname="Differentiated Services Field: 0x00 (DSCP 0x00: Default; ECN: 0x00: Not-ECT (Not ECN-Capable Transport))" size="1" pos="15" show="0" value="00">
+      <field name="ip.dsfield.dscp" showname="0000 00.. = Differentiated Services Codepoint: Default (0x00)" size="1" pos="15" show="0x00" value="0" unmaskedvalue="00"/>
+      <field name="ip.dsfield.ecn" showname=".... ..00 = Explicit Congestion Notification: Not-ECT (Not ECN-Capable Transport) (0x00)" size="1" pos="15" show="0x00" value="0" unmaskedvalue="00"/>
+    </field>
+    <field name="ip.len" showname="Total Length: 202" size="2" pos="16" show="202" value="00ca"/>
+    <field name="ip.id" showname="Identification: 0x020a (522)" size="2" pos="18" show="0x020a" value="020a"/>
+    <field name="ip.flags" showname="Flags: 0x00" size="1" pos="20" show="0x00" value="00">
+      <field name="ip.flags.rb" showname="0... .... = Reserved bit: Not set" size="1" pos="20" show="0" value="00"/>
+      <field name="ip.flags.df" showname=".0.. .... = Don&apos;t fragment: Not set" size="1" pos="20" show="0" value="00"/>
+      <field name="ip.flags.mf" showname="..0. .... = More fragments: Not set" size="1" pos="20" show="0" value="00"/>
+    </field>
+    <field name="ip.frag_offset" showname="Fragment offset: 0" size="2" pos="20" show="0" value="0000"/>
+    <field name="ip.ttl" showname="Time to live: 64" size="1" pos="22" show="64" value="40"/>
+    <field name="ip.proto" showname="Protocol: UDP (17)" size="1" pos="23" show="17" value="11"/>
+    <field name="ip.checksum" showname="Header checksum: 0x6008 [validation disabled]" size="2" pos="24" show="0x6008" value="6008">
+      <field name="ip.checksum_good" showname="Good: False" size="2" pos="24" show="0" value="6008"/>
+      <field name="ip.checksum_bad" showname="Bad: False" size="2" pos="24" show="0" value="6008"/>
+    </field>
+    <field name="ip.src" showname="Source: 10.0.2.3 (10.0.2.3)" size="4" pos="26" show="10.0.2.3" value="0a000203"/>
+    <field name="ip.addr" showname="Source or Destination Address: 10.0.2.3 (10.0.2.3)" hide="yes" size="4" pos="26" show="10.0.2.3" value="0a000203"/>
+    <field name="ip.src_host" showname="Source Host: 10.0.2.3" hide="yes" size="4" pos="26" show="10.0.2.3" value="0a000203"/>
+    <field name="ip.host" showname="Source or Destination Host: 10.0.2.3" hide="yes" size="4" pos="26" show="10.0.2.3" value="0a000203"/>
+    <field name="ip.dst" showname="Destination: 10.0.2.15 (10.0.2.15)" size="4" pos="30" show="10.0.2.15" value="0a00020f"/>
+    <field name="ip.addr" showname="Source or Destination Address: 10.0.2.15 (10.0.2.15)" hide="yes" size="4" pos="30" show="10.0.2.15" value="0a00020f"/>
+    <field name="ip.dst_host" showname="Destination Host: 10.0.2.15" hide="yes" size="4" pos="30" show="10.0.2.15" value="0a00020f"/>
+    <field name="ip.host" showname="Source or Destination Host: 10.0.2.15" hide="yes" size="4" pos="30" show="10.0.2.15" value="0a00020f"/>
+    <field name="" show="Source GeoIP: Unknown" size="4" pos="26" value="0a000203"/>
+    <field name="" show="Destination GeoIP: Unknown" size="4" pos="30" value="0a00020f"/>
+  </proto>
+  <proto name="udp" showname="User Datagram Protocol, Src Port: domain (53), Dst Port: 36532 (36532)" size="8" pos="34">
+    <field name="udp.srcport" showname="Source port: domain (53)" size="2" pos="34" show="53" value="0035"/>
+    <field name="udp.dstport" showname="Destination port: 36532 (36532)" size="2" pos="36" show="36532" value="8eb4"/>
+    <field name="udp.port" showname="Source or Destination Port: 53" hide="yes" size="2" pos="34" show="53" value="0035"/>
+    <field name="udp.port" showname="Source or Destination Port: 36532" hide="yes" size="2" pos="36" show="36532" value="8eb4"/>
+    <field name="udp.length" showname="Length: 182" size="2" pos="38" show="182" value="00b6"/>
+    <field name="udp.checksum_coverage" showname="Checksum coverage: 182" hide="yes" size="0" pos="38" show="182"/>
+    <field name="udp.checksum" showname="Checksum: 0xb45a [validation disabled]" size="2" pos="40" show="0xb45a" value="b45a">
+      <field name="udp.checksum_good" showname="Good Checksum: False" size="2" pos="40" show="0" value="b45a"/>
+      <field name="udp.checksum_bad" showname="Bad Checksum: False" size="2" pos="40" show="0" value="b45a"/>
+    </field>
+  </proto>
+  <proto name="dns" showname="Domain Name System (response)" size="174" pos="42">
+    <field name="dns.response_to" showname="Request In: 16" size="0" pos="42" show="16"/>
+    <field name="dns.time" showname="Time: 0.028203000 seconds" size="0" pos="42" show="0.028203000"/>
+    <field name="dns.id" showname="Transaction ID: 0x99fa" size="2" pos="42" show="0x99fa" value="99fa"/>
+    <field name="dns.flags" showname="Flags: 0x8180 Standard query response, No error" size="2" pos="44" show="0x8180" value="8180">
+      <field name="dns.flags.response" showname="1... .... .... .... = Response: Message is a response" size="2" pos="44" show="1" value="1" unmaskedvalue="8180"/>
+      <field name="dns.flags.opcode" showname=".000 0... .... .... = Opcode: Standard query (0)" size="2" pos="44" show="0" value="0" unmaskedvalue="8180"/>
+      <field name="dns.flags.authoritative" showname=".... .0.. .... .... = Authoritative: Server is not an authority for domain" size="2" pos="44" show="0" value="0" unmaskedvalue="8180"/>
+      <field name="dns.flags.truncated" showname=".... ..0. .... .... = Truncated: Message is not truncated" size="2" pos="44" show="0" value="0" unmaskedvalue="8180"/>
+      <field name="dns.flags.recdesired" showname=".... ...1 .... .... = Recursion desired: Do query recursively" size="2" pos="44" show="1" value="1" unmaskedvalue="8180"/>
+      <field name="dns.flags.recavail" showname=".... .... 1... .... = Recursion available: Server can do recursive queries" size="2" pos="44" show="1" value="1" unmaskedvalue="8180"/>
+      <field name="dns.flags.z" showname=".... .... .0.. .... = Z: reserved (0)" size="2" pos="44" show="0" value="0" unmaskedvalue="8180"/>
+      <field name="dns.flags.authenticated" showname=".... .... ..0. .... = Answer authenticated: Answer/authority portion was not authenticated by the server" size="2" pos="44" show="0" value="0" unmaskedvalue="8180"/>
+      <field name="dns.flags.checkdisable" showname=".... .... ...0 .... = Non-authenticated data: Unacceptable" size="2" pos="44" show="0" value="0" unmaskedvalue="8180"/>
+      <field name="dns.flags.rcode" showname=".... .... .... 0000 = Reply code: No error (0)" size="2" pos="44" show="0" value="0" unmaskedvalue="8180"/>
+    </field>
+    <field name="dns.count.queries" showname="Questions: 1" size="2" pos="46" show="1" value="0001"/>
+    <field name="dns.count.answers" showname="Answer RRs: 1" size="2" pos="48" show="1" value="0001"/>
+    <field name="dns.count.auth_rr" showname="Authority RRs: 2" size="2" pos="50" show="2" value="0002"/>
+    <field name="dns.count.add_rr" showname="Additional RRs: 4" size="2" pos="52" show="4" value="0004"/>
+    <field name="" show="Queries" size="15" pos="54" value="037777770267690264650000010001">
+      <field name="" show="www.gi.de: type A, class IN" size="15" pos="54" value="037777770267690264650000010001">
+        <field name="dns.qry.name" showname="Name: www.gi.de" size="11" pos="54" show="www.gi.de" value="0377777702676902646500"/>
+        <field name="dns.qry.type" showname="Type: A (Host address)" size="2" pos="65" show="0x0001" value="0001"/>
+        <field name="dns.qry.class" showname="Class: IN (0x0001)" size="2" pos="67" show="0x0001" value="0001"/>
+      </field>
+    </field>
+    <field name="" show="Answers" size="16" pos="69" value="c00c0001000100000e100004d9455c5d">
+      <field name="" show="www.gi.de: type A, class IN, addr 217.69.92.93" size="16" pos="69" value="c00c0001000100000e100004d9455c5d">
+        <field name="dns.resp.name" showname="Name: www.gi.de" size="2" pos="69" show="www.gi.de" value="c00c"/>
+        <field name="dns.resp.type" showname="Type: A (Host address)" size="2" pos="71" show="0x0001" value="0001"/>
+        <field name="dns.resp.class" showname="Class: IN (0x0001)" size="2" pos="73" show="0x0001" value="0001"/>
+        <field name="dns.resp.ttl" showname="Time to live: 1 hour" size="4" pos="75" show="3600" value="00000e10"/>
+        <field name="dns.resp.len" showname="Data length: 4" size="2" pos="79" show="4" value="0004"/>
+        <field name="dns.resp.addr" showname="Addr: 217.69.92.93 (217.69.92.93)" size="4" pos="81" show="217.69.92.93" value="d9455c5d"/>
+      </field>
+    </field>
+    <field name="" show="Authoritative nameservers" size="43" pos="85" value="c0100002000100000e10000d036e7331066f70656e6974c013c0100002000100000e100006036e7332c03b">
+      <field name="" show="gi.de: type NS, class IN, ns ns1.openit.de" size="25" pos="85" value="c0100002000100000e10000d036e7331066f70656e6974c013">
+        <field name="dns.resp.name" showname="Name: gi.de" size="2" pos="85" show="gi.de" value="c010"/>
+        <field name="dns.resp.type" showname="Type: NS (Authoritative name server)" size="2" pos="87" show="0x0002" value="0002"/>
+        <field name="dns.resp.class" showname="Class: IN (0x0001)" size="2" pos="89" show="0x0001" value="0001"/>
+        <field name="dns.resp.ttl" showname="Time to live: 1 hour" size="4" pos="91" show="3600" value="00000e10"/>
+        <field name="dns.resp.len" showname="Data length: 13" size="2" pos="95" show="13" value="000d"/>
+        <field name="dns.resp.ns" showname="Name Server: ns1.openit.de" size="13" pos="97" show="ns1.openit.de" value="036e7331066f70656e6974c013"/>
+      </field>
+      <field name="" show="gi.de: type NS, class IN, ns ns2.openit.de" size="18" pos="110" value="c0100002000100000e100006036e7332c03b">
+        <field name="dns.resp.name" showname="Name: gi.de" size="2" pos="110" show="gi.de" value="c010"/>
+        <field name="dns.resp.type" showname="Type: NS (Authoritative name server)" size="2" pos="112" show="0x0002" value="0002"/>
+        <field name="dns.resp.class" showname="Class: IN (0x0001)" size="2" pos="114" show="0x0001" value="0001"/>
+        <field name="dns.resp.ttl" showname="Time to live: 1 hour" size="4" pos="116" show="3600" value="00000e10"/>
+        <field name="dns.resp.len" showname="Data length: 6" size="2" pos="120" show="6" value="0006"/>
+        <field name="dns.resp.ns" showname="Name Server: ns2.openit.de" size="6" pos="122" show="ns2.openit.de" value="036e7332c03b"/>
+      </field>
+    </field>
+    <field name="" show="Additional records" size="88" pos="128" value="c03700010001000009bd0004d9454123c037001c0001000009bd001020010aa8fffe00000000000000000002c0500001000100003ed90004d55fcb6bc050001c000100003ed9001020010780012900010000000000000003">
+      <field name="" show="ns1.openit.de: type A, class IN, addr 217.69.65.35" size="16" pos="128" value="c03700010001000009bd0004d9454123">
+        <field name="dns.resp.name" showname="Name: ns1.openit.de" size="2" pos="128" show="ns1.openit.de" value="c037"/>
+        <field name="dns.resp.type" showname="Type: A (Host address)" size="2" pos="130" show="0x0001" value="0001"/>
+        <field name="dns.resp.class" showname="Class: IN (0x0001)" size="2" pos="132" show="0x0001" value="0001"/>
+        <field name="dns.resp.ttl" showname="Time to live: 41 minutes, 33 seconds" size="4" pos="134" show="2493" value="000009bd"/>
+        <field name="dns.resp.len" showname="Data length: 4" size="2" pos="138" show="4" value="0004"/>
+        <field name="dns.resp.addr" showname="Addr: 217.69.65.35 (217.69.65.35)" size="4" pos="140" show="217.69.65.35" value="d9454123"/>
+      </field>
+      <field name="" show="ns1.openit.de: type AAAA, class IN, addr 2001:aa8:fffe::2" size="28" pos="144" value="c037001c0001000009bd001020010aa8fffe00000000000000000002">
+        <field name="dns.resp.name" showname="Name: ns1.openit.de" size="2" pos="144" show="ns1.openit.de" value="c037"/>
+        <field name="dns.resp.type" showname="Type: AAAA (IPv6 address)" size="2" pos="146" show="0x001c" value="001c"/>
+        <field name="dns.resp.class" showname="Class: IN (0x0001)" size="2" pos="148" show="0x0001" value="0001"/>
+        <field name="dns.resp.ttl" showname="Time to live: 41 minutes, 33 seconds" size="4" pos="150" show="2493" value="000009bd"/>
+        <field name="dns.resp.len" showname="Data length: 16" size="2" pos="154" show="16" value="0010"/>
+        <field name="" show="Addr: 2001:aa8:fffe::2" size="16" pos="156" value="20010aa8fffe00000000000000000002"/>
+      </field>
+      <field name="" show="ns2.openit.de: type A, class IN, addr 213.95.203.107" size="16" pos="172" value="c0500001000100003ed90004d55fcb6b">
+        <field name="dns.resp.name" showname="Name: ns2.openit.de" size="2" pos="172" show="ns2.openit.de" value="c050"/>
+        <field name="dns.resp.type" showname="Type: A (Host address)" size="2" pos="174" show="0x0001" value="0001"/>
+        <field name="dns.resp.class" showname="Class: IN (0x0001)" size="2" pos="176" show="0x0001" value="0001"/>
+        <field name="dns.resp.ttl" showname="Time to live: 4 hours, 28 minutes, 9 seconds" size="4" pos="178" show="16089" value="00003ed9"/>
+        <field name="dns.resp.len" showname="Data length: 4" size="2" pos="182" show="4" value="0004"/>
+        <field name="dns.resp.addr" showname="Addr: 213.95.203.107 (213.95.203.107)" size="4" pos="184" show="213.95.203.107" value="d55fcb6b"/>
+      </field>
+      <field name="" show="ns2.openit.de: type AAAA, class IN, addr 2001:780:129:1::3" size="28" pos="188" value="c050001c000100003ed9001020010780012900010000000000000003">
+        <field name="dns.resp.name" showname="Name: ns2.openit.de" size="2" pos="188" show="ns2.openit.de" value="c050"/>
+        <field name="dns.resp.type" showname="Type: AAAA (IPv6 address)" size="2" pos="190" show="0x001c" value="001c"/>
+        <field name="dns.resp.class" showname="Class: IN (0x0001)" size="2" pos="192" show="0x0001" value="0001"/>
+        <field name="dns.resp.ttl" showname="Time to live: 4 hours, 28 minutes, 9 seconds" size="4" pos="194" show="16089" value="00003ed9"/>
+        <field name="dns.resp.len" showname="Data length: 16" size="2" pos="198" show="16" value="0010"/>
+        <field name="" show="Addr: 2001:780:129:1::3" size="16" pos="200" value="20010780012900010000000000000003"/>
+      </field>
+    </field>
+  </proto>
+</packet>
+
+</pdml>
