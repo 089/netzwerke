@@ -26,8 +26,8 @@
       <file leaf-file-name="Server.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/stze/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3321859">
-              <caret line="24" column="41" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.5180723">
+              <caret line="98" column="48" selection-start-line="98" selection-start-column="48" selection-end-line="98" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -646,12 +646,12 @@
       <workItem from="1448534171766" duration="2666000" />
       <workItem from="1448620748552" duration="5092000" />
       <workItem from="1448698447317" duration="10000000" />
-      <workItem from="1448719654971" duration="404000" />
+      <workItem from="1448719654971" duration="3753000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42471000" />
+    <option name="totallyTimeSpent" value="45820000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="960" y="0" width="961" height="1055" extended-state="4" />
@@ -858,8 +858,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stze/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3321859">
-          <caret line="24" column="41" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.5180723">
+          <caret line="98" column="48" selection-start-line="98" selection-start-column="48" selection-end-line="98" selection-end-column="48" />
           <folding />
         </state>
       </provider>

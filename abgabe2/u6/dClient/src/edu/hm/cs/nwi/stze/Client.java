@@ -54,7 +54,7 @@ public class Client {
 
         InetAddress serverAddress = InetAddress.getByName(host);
 
-        System.out.printf("%s server started", ((useUDP) ? "UDP" : "TCP"));
+        System.out.printf("%s client started", ((useUDP) ? "UDP" : "TCP"));
 
         //System.out.println(dataString.getBytes("UTF-8").length);
 
@@ -84,7 +84,7 @@ public class Client {
 
                 // influence the performance
                 if (packetID % N == 0)
-                    sleep(k);
+                    delay(k);
 
                 ByteBuffer dataBuffer = createPacket(packetID, bodyBytes);
 
@@ -116,7 +116,7 @@ public class Client {
 
                         // influence the performance
                         if (packetID % N == 0)
-                            sleep(k);
+                            delay(k);
 
                         ByteBuffer dataBuffer = createPacket(packetID, bodyBytes);
 
@@ -125,8 +125,6 @@ public class Client {
                         toServer.write(data);
 
                         toServer.flush();
-
-
 
                 } catch (IOException e) {
                     if(!lostPacketsList.contains(packetID)) {
@@ -141,34 +139,22 @@ public class Client {
 
 
         long endTime = System.currentTimeMillis();
-        long durationInSeconds = (endTime-startTime)/1000;
+        double durationInSeconds = (double)(endTime-startTime)/1000;
 
         int packetSizeInBit = (bodyBytes.length + 16) * 8;
 
-        System.out.printf("%s client stopped\n", ((useUDP) ? "UDP" : "TCP"));
+        System.out.printf("%s client stopped\n\n", ((useUDP) ? "UDP" : "TCP"));
         System.out.printf("Es wurden %d Pakete versendet.\n", packetID);
-        System.out.printf("%d Pakete wurden evtl. nicht versendet.\n", lostPacketsList.size());
-        System.out.printf("Übertragungszeit SOLL/IST [s]: %d/%d\n", transmissionTime, durationInSeconds);
+        //System.out.printf("%d Pakete wurden evtl. nicht versendet.\n", lostPacketsList.size());
+        System.out.printf("Übertragungszeit SOLL/IST [s]: %d/%,.2f\n", transmissionTime, durationInSeconds);
         System.out.printf("Verzögerung Zeit k: %d\n", k);
         System.out.printf("Verzögerung nach Anzahl Pakete N: %d\n", N);
-        System.out.printf("Theoretische Senderate:  %,.2f\n", ((N * packetSizeInBit)/(double) (k/1000)));
+        System.out.printf("Theoretische Senderate:  %,.2f\n", ((N * packetSizeInBit)/(double) (k+1/1000)));
         System.out.printf("Tatsächliche Senderate:  %,.2f\n", ((packetID * packetSizeInBit)/durationInSeconds));
-
-        //System.out.printf("Minimum: %,.2f\n", Calculations.min(performanceList));
-        //System.out.printf("Maximum: %,.2f\n", Calculations.max(performanceList));
-        //System.out.printf("Mittelwert: %,.2f\n", Calculations.average(performanceList));
-        //System.out.printf("Standartabweichung: %,.2f\n", Calculations.standardDeviation(performanceList));
-
-      System.out.printf("Von %d Paketen wurden nur %d Pakete - mit einer theoretischen Datenrate von %d kbit/s - versendet. %d Pakete konnten nicht gesendet werden."
-              , packetID
-              , (packetID - lostPacketsList.size())
-              , ((((packetID - lostPacketsList.size()) * (bodyBytes.length + 16) * 8)/(transmissionTime))/1024)
-              , lostPacketsList.size()
-              );
 
     }
 
-    private static void sleep(long k) {
+    private static void delay(long k) {
         try {
             System.out.println("begin sleep");
             Thread.sleep(k);
@@ -177,7 +163,6 @@ public class Client {
             e.printStackTrace();
         }
     }
-
 
     private static ByteBuffer createPacket(long packetID, byte[] bodyBytes) {
 
