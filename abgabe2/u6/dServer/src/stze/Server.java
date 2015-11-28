@@ -11,26 +11,27 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class UDPServer {
+public class Server {
 
-    // user UDP (true) or TCP (false) for the transmission
-    private static boolean useUDP = true;
+    private static boolean useUDP = true; // user UDP (true) or TCP (false) for the transmission
     private static int serverPort = 4711;
     private static int packetSize = 1416;
-    private static int timeoutForPerformanceMeasurement = 250; // in millis
+    private static int timeoutForPerformanceMeasurement = 200; // in millis
     private static int maxTimouts = 100; // if there are maxTimeouts then the connection will be closed
     private static boolean ignoreMaxTimeouts = false;
 
 
     // DO NOT CHANGE THESE VALUES
-    private static int countPackets = 0;
-    private static int countTotalPackets = 0;
+    private static long countPackets = 0;
+    private static long countTotalPackets = 0;
     private static int countTimeouts = 0;
     private static long performanceTimer = System.currentTimeMillis();
     private static ArrayList<Double> performanceList = new ArrayList<>();
 
 
     public static void main(String[] args) {
+
+        long startTime = System.currentTimeMillis();
 
         System.out.printf("%s server started", ((useUDP) ? "UDP" : "TCP"));
         System.out.println("kbit/s;\t\tPakete;\ttotal;\tZeit [s];");
@@ -127,8 +128,11 @@ public class UDPServer {
             }
         }
 
+        long endTime = System.currentTimeMillis();
+        long durationInSeconds = (endTime-startTime)/1000;
 
         System.out.printf("%s server stopped\n", ((useUDP) ? "UDP" : "TCP"));
+        System.out.printf("Timeout [ms]: %d\n", timeoutForPerformanceMeasurement);
         System.out.printf("Es wurden %d Pakete empfangen.\n", countTotalPackets);
         System.out.printf("Minimum: %,.2f\n", Calculations.min(performanceList));
         System.out.printf("Maximum: %,.2f\n", Calculations.max(performanceList));
