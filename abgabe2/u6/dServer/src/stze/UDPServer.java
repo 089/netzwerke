@@ -1,5 +1,7 @@
 package stze;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.*;
 import java.nio.ByteBuffer;
@@ -11,105 +13,166 @@ import java.util.List;
 
 public class UDPServer {
 
+    // user UDP (true) or TCP (false) for the transmission
+    private static boolean useUDP = true;
+    private static int serverPort = 4711;
+    private static int packetSize = 1416;
+    private static int timeoutForPerformanceMeasurement = 250; // in millis
+    private static int maxTimouts = 100; // if there are maxTimeouts then the connection will be closed
+    private static boolean ignoreMaxTimeouts = false;
+
+
+    // DO NOT CHANGE THESE VALUES
+    private static int countPackets = 0;
+    private static int countTotalPackets = 0;
+    private static int countTimeouts = 0;
+    private static long performanceTimer = System.currentTimeMillis();
+    private static ArrayList<Double> performanceList = new ArrayList<>();
+
+
     public static void main(String[] args) {
 
-        int serverPort = 4711;
-        int packetSize = 1416;
-        int timeoutForPerformanceMeasurement = 500; // in millis
-        int maxTimouts = 10; // if there are maxTimeouts then the connection will be closed
-        boolean ignoreMaxTimeouts = false;
+        System.out.printf("%s server started", ((useUDP) ? "UDP" : "TCP"));
+        System.out.println("kbit/s;\t\tPakete;\ttotal;\tZeit [s];");
+        System.out.println("---------------------------------");
 
-        //boolean resetPerformanceTimer = true;
-        long performanceTimer = System.currentTimeMillis();
-        double performance = 0;
-        ArrayList<Double> performanceList = new ArrayList<>();
+        if(useUDP) {
+            try (DatagramSocket socket = new DatagramSocket(serverPort)) {
 
-        int countPackets = 0;
-        int countTotalPackets = 0;
-        int countTimeouts = 0;
+                socket.setSoTimeout(timeoutForPerformanceMeasurement);
+                while (true) {
 
-        try (DatagramSocket socket = new DatagramSocket(serverPort)) {
+                    // Auf Anfrage warten
+                    DatagramPacket packet = new DatagramPacket(new byte[packetSize], packetSize);
 
-            socket.setSoTimeout(timeoutForPerformanceMeasurement);
-            System.out.println("UDP server started");
+                    try {
+                        socket.receive(packet);
 
-            // System.out.printf("von\t\tID\tTime\tLänge\tRate\n");
+                        countTimeouts = 0;
+                        countPackets++;
+                        countTotalPackets++;
 
-            System.out.println("kbit/s;\t\tPakete;\ttotal;\tZeit [s];");
-            System.out.println("---------------------------------");
-            while (true) {
+                    } catch (SocketTimeoutException e) {
+                        //e.printStackTrace();
 
-                // Auf Anfrage warten
-                DatagramPacket packet = new DatagramPacket(new byte[packetSize], packetSize);
+                        measurePerformance();
 
-                try {
-                    socket.receive(packet);
+                        if (countTimeouts > 0)
+                            System.out.printf("%2.1fs until timeout\n", (maxTimouts - countTimeouts) * (timeoutForPerformanceMeasurement / 1000.0));
 
-                    countTimeouts = 0;
-                    countPackets++;
-                    countTotalPackets++;
+                        countTimeouts++;
+                        if (!ignoreMaxTimeouts && countTimeouts > maxTimouts) {
+                            System.out.println("Max timeouts achieved.");
+                            break;
+                        }
 
-                    //Empfänger auslesen
-                    InetAddress address = packet.getAddress();
-                    int port = packet.getPort();
-                    int len = packet.getLength();
-                    byte[] data = packet.getData();
-
-                    long packetID = ByteBuffer.wrap(data,0,8).getLong();
-                    long sendingTime = ByteBuffer.wrap(data,8,8).getLong();
-
-                    //byte [] subArray = Arrays.copyOfRange(bytes, 4, 6);
-
-                    // System.out.printf("%s:%d\t\t%d\t%d\t%d\t%f\n", address, port, packetID, sendingTime, len, performance);
-
-//                System.out.printf("Anfrage von %s vom Port %d mit der Länge %d:%n%s%n", address, port, len, new String(data, 16, len));
-
-                } catch (SocketTimeoutException e) {
-                    //e.printStackTrace();
-                    // System.out.printf("%d, %d, %d, %d, %d, %d, %d\n", countPackets, packetSize, (countPackets * packetSize * 8), System.currentTimeMillis(), performanceTimer, (System.currentTimeMillis() - performanceTimer), ((System.currentTimeMillis() - performanceTimer)/1000));
-
-                    long bitsOfAllReceivedPackets = countPackets * packetSize * 8;
-                    double timeDiffInSeconds = (System.currentTimeMillis() - performanceTimer)/1000.0;
-
-                    performance = (timeDiffInSeconds > 0) ? (bitsOfAllReceivedPackets/timeDiffInSeconds) / 1024 : 0; // we must avoid by zero division error.
-                    performanceList.add(performance);
-
-                    // Datenrate anzeigen
-                    if(countPackets > 0)
-                        //System.out.printf("Letzte Datenrate: %,.2f kbit/s.\nPakete: %d (total: %d)\nZeit: %2.3f s\n------------------------------------\n"
-                        System.out.printf("%,10.2f;\t%5d;\t%5d;\t%2.3f;\n"
-                                , performance
-                                , countPackets
-                                , countTotalPackets
-                                , timeDiffInSeconds
-                                );
-
-                    performanceTimer = System.currentTimeMillis();
-                    countPackets=0;
-
-                    if(countTimeouts > 0)
-                        System.out.println(maxTimouts-countTimeouts);
-
-                    countTimeouts++;
-                    if(!ignoreMaxTimeouts && countTimeouts > maxTimouts) {
-                        System.out.println("Max timeouts achieved.");
-                        break;
+                    } catch (SocketException e) {
+                        // TODO
                     }
 
-                } catch (SocketException e) {
-                    // TODO
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else { // TCP
+
+            try (ServerSocket serverSocket = new ServerSocket(serverPort)) {
+
+                serverSocket.setSoTimeout(timeoutForPerformanceMeasurement);
+
+                while (true) {
+                    try (Socket socket = serverSocket.accept();
+                         DataInputStream fromClient =
+                                 new DataInputStream(
+                                         socket.getInputStream());) {
+
+                        countTimeouts = 0;
+                        countPackets++;
+                        countTotalPackets++;
+
+                        byte[] bytes = new byte[packetSize];
+
+                        fromClient.read(bytes);
+
+                        if(countPackets % 1000 == 0) {
+                            System.out.println(ByteBuffer.allocate(8).getLong(0));
+                            //System.out.println(ByteBuffer.allocate(8).getLong(7));
+                            //System.out.println(ByteBuffer.allocate(1400).array().toString());
+                        }
+
+
+                    } catch (SocketTimeoutException e) {
+                        //e.printStackTrace();
+
+                        measurePerformance();
+
+                        if (countTimeouts > 0)
+                            System.out.printf("%2.1fs until timeout\n", (maxTimouts - countTimeouts) * (timeoutForPerformanceMeasurement / 1000.0));
+
+                        countTimeouts++;
+                        if (!ignoreMaxTimeouts && countTimeouts > maxTimouts) {
+                            System.out.println("Max timeouts achieved.");
+                            break;
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
+            } catch (SocketException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        System.out.println("UDP server stopped");
-        System.out.printf("Es wurden %d Pakete empfangen.\n", countTotalPackets);
-        System.out.println("Mittelwert: " + new Calculations().average(performanceList));
-        System.out.println("Standartabweichung: " + new Calculations().standardDeviation(performanceList));
 
+
+        System.out.printf("%s server stopped\n", ((useUDP) ? "UDP" : "TCP"));
+        System.out.printf("Es wurden %d Pakete empfangen.\n", countTotalPackets);
+        System.out.printf("Minimum: %,.2f\n", Calculations.min(performanceList));
+        System.out.printf("Maximum: %,.2f\n", Calculations.max(performanceList));
+        System.out.printf("Mittelwert: %,.2f\n", Calculations.average(performanceList));
+        System.out.printf("Standartabweichung: %,.2f\n", Calculations.standardDeviation(performanceList));
 
     }
 
+    private static void measurePerformance() {
+        long bitsOfAllReceivedPackets = countPackets * packetSize * 8;
+        double timeDiffInSeconds = (System.currentTimeMillis() - performanceTimer) / 1000.0;
+
+        double performance = (timeDiffInSeconds > 0) ? (bitsOfAllReceivedPackets / timeDiffInSeconds) / 1024 : 0; // we must avoid by zero division error.
+
+        // Datenrate anzeigen
+        if (countPackets > 0) {
+            //System.out.printf("Letzte Datenrate: %,.2f kbit/s.\nPakete: %d (total: %d)\nZeit: %2.3f s\n------------------------------------\n"
+            System.out.printf("%,10.2f;\t%5d;\t%5d;\t%2.3f;\n"
+                    , performance
+                    , countPackets
+                    , countTotalPackets
+                    , timeDiffInSeconds
+            );
+
+            performanceList.add(performance);
+        }
+
+        performanceTimer = System.currentTimeMillis();
+        countPackets = 0;
+
+    }
+
+    /*
+    private static void extractData() {
+        //Empfänger auslesen
+        // InetAddress address = packet.getAddress();
+        // int port = packet.getPort();
+        // int len = packet.getLength();
+        // byte[] data = packet.getData();
+
+        // TODO long packetID = ByteBuffer.wrap(data, 0, 8).getLong();
+        // TODO long sendingTime = ByteBuffer.wrap(data, 8, 8).getLong();
+
+        // byte [] subArray = Arrays.copyOfRange(bytes, 4, 6);
+    }
+    */
 }

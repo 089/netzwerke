@@ -1,16 +1,10 @@
 package edu.hm.cs.nwi.stze;
 
-import com.sun.deploy.util.ArrayUtil;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Sends UDP packets during {@code transmissionTime} to a server.
@@ -26,11 +20,14 @@ public class UDPClient {
 
     public static void main(String[] args) throws UnsupportedEncodingException, UnknownHostException {
 
+        // user UDP (true) or TCP (false) for the transmission
+        boolean useUDP = true;
+
         int transmissionTime = 30; // in seconds
 
-        int N = 100; // delay step
+        int N = 100_000; // delay step
 
-        long k = 1000; // delay in millis
+        long k = 5; // delay in millis
 
         InetAddress serverAddress = InetAddress.getByName("127.0.0.1");
         //InetAddress serverAddress = InetAddress.getByName("87.106.2.1");
@@ -69,52 +66,69 @@ public class UDPClient {
 
         long packetID = 0;
 
-        byte[] headerID = null;
-
-        byte[] headerSendingTime = null;
-
         // Transmission
-        while(System.currentTimeMillis() - startTime < transmissionTime * 1000) {
+        if(useUDP) { // use UDP
+            while (System.currentTimeMillis() - startTime < transmissionTime * 1000) {
 
-            // Header: ID
-            packetID++;
-            headerID = ByteBuffer.allocate(8).putLong(packetID).array();
+                // Header: ID
+                packetID++;
 
-            // Heder: sending time
-            headerSendingTime = ByteBuffer.allocate(8).putLong(System.currentTimeMillis()).array();
+                // influence the performance
+                if (packetID % N == 0)
+                    sleep(k);
 
-            // concat header and body data
-            byte[] data = new byte[bodyBytes.length + 2 * 8];
-            ByteBuffer dataBuffer = ByteBuffer.wrap(data);
-            dataBuffer.put(headerID);
-            dataBuffer.put(headerSendingTime);
-            dataBuffer.put(bodyBytes);
+                ByteBuffer dataBuffer = createPacket(packetID, bodyBytes);
 
-            DatagramPacket packet = new DatagramPacket(dataBuffer.array(), dataBuffer.array().length, serverAddress, serverPort );
+                DatagramPacket packet = new DatagramPacket(dataBuffer.array(), dataBuffer.array().length, serverAddress, serverPort);
 
-            try {
-                new DatagramSocket().send(packet);
-            } catch(FileNotFoundException e) {
-                // TODO
-            } catch (IOException e){
-                //e.printStackTrace();
-                System.out.println("" + packetID);
-                lostPacketsList.add(packetID);
-                continue;
-            }
-
-
-        // influence the performance
-            if(packetID % N == 0) {
                 try {
-                    System.out.println("begin sleep");
-                    Thread.sleep(k);
-                    System.out.println("end sleep");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    new DatagramSocket().send(packet);
+                } catch (FileNotFoundException e) {
+                    // TODO
+                } catch (IOException e) {
+                    if(!lostPacketsList.contains(packetID)) {
+                        lostPacketsList.add(packetID);
+                        System.out.println("" + packetID);
+                        e.printStackTrace();
+                    }
+                    continue;
                 }
             }
+        } else { // use TCP
 
+            while (System.currentTimeMillis() - startTime < transmissionTime * 1000) {
+                try(Socket s=new Socket(serverAddress, serverPort);
+                    DataOutputStream toServer =
+                            new DataOutputStream(
+                                    s.getOutputStream());) {
+
+
+                        // Header: ID
+                        packetID++;
+
+                        // influence the performance
+                        if (packetID % N == 0)
+                            sleep(k);
+
+                        ByteBuffer dataBuffer = createPacket(packetID, bodyBytes);
+
+                        byte[] data = dataBuffer.array();
+
+                        toServer.write(data);
+
+                        toServer.flush();
+
+
+
+                } catch (IOException e) {
+                    if(!lostPacketsList.contains(packetID)) {
+                        lostPacketsList.add(packetID);
+                        System.out.println("" + packetID);
+                        e.printStackTrace();
+                    }
+                    // continue;
+                }
+            }
         }
 
       System.out.printf("Von %d Paketen wurden nur %d Pakete - mit einer theoretischen Datenrate von %d kbit/s - versendet. %d Pakete konnten nicht gesendet werden."
@@ -124,6 +138,35 @@ public class UDPClient {
               , lostPacketsList.size()
               );
 
+    }
+
+    private static void sleep(long k) {
+        try {
+            System.out.println("begin sleep");
+            Thread.sleep(k);
+            System.out.println("end sleep");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static ByteBuffer createPacket(long packetID, byte[] bodyBytes) {
+
+        // Header: ID
+        byte[] headerID = ByteBuffer.allocate(8).putLong(packetID).array();
+
+        // Heder: sending time
+        byte[] headerSendingTime = ByteBuffer.allocate(8).putLong(System.currentTimeMillis()).array();
+
+        // concat header and body data
+        byte[] data = new byte[bodyBytes.length + 2 * 8];
+        ByteBuffer dataBuffer = ByteBuffer.wrap(data);
+        dataBuffer.put(headerID);
+        dataBuffer.put(headerSendingTime);
+        dataBuffer.put(bodyBytes);
+
+        return dataBuffer;
     }
 
 }
