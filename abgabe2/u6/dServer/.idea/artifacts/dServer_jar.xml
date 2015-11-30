@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="dServer:jar">
+    <output-path>$PROJECT_DIR$/..</output-path>
+    <root id="archive" name="dServer.jar">
+      <element id="module-output" name="dServer" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src" />
+    </root>
+  </artifact>
+</component>

@@ -12,18 +12,16 @@ import java.util.List;
  * Packets consists of a header (8 Byte {@code packetID}, 8 Byte {@code sendTime})
  * and a body (around 1400 Bytes of data).
  *
- * @author: Martin Zell
+ * @author: Kevin Stieglitz, Martin Zell
  * @version: 0.9
  */
 
 public class Client {
 
-    private static boolean useUDP = true; // user UDP (true) or TCP (false) for the transmission
-    private static long N = 100_000_000; // delay step
-    private static long k = 0; // delay in millis
+    private static long N = 5_000_000; // delay step
+    private static long k = 250; // delay in millis
 
     private static int serverPort = 4711;
-    private static String host = "127.0.0.1";
     private static int transmissionTime = 30; // in seconds
 
     //#####################################################################
@@ -50,11 +48,29 @@ public class Client {
     private static byte[] bodyBytes = bodyString.getBytes();
 
 
-    public static void main(String[] args) throws UnsupportedEncodingException, UnknownHostException {
+    public static void main(String[] args) throws IOException {
+
+        // user UDP (true) or TCP (false) for the transmission
+        boolean useUDP = args.length == 0 || !args[0].equals("tcp");
+        //useUDP = false;
+
+        String host = (args.length <= 1) ? "127.0.0.1" : args[1];
+
+        if(args.length == 4) {
+            N = Long.valueOf(args[2]);
+            k = Long.valueOf(args[3]);
+        }
+
 
         InetAddress serverAddress = InetAddress.getByName(host);
 
-        System.out.printf("%s client started", ((useUDP) ? "UDP" : "TCP"));
+        System.out.printf("%s client started (%s:%d, N=%d, k=%d) \n"
+                , ((useUDP) ? "UDP" : "TCP")
+                , host
+                , serverPort
+                , N
+                , k
+                );
 
         //System.out.println(dataString.getBytes("UTF-8").length);
 
@@ -106,33 +122,35 @@ public class Client {
         } else { // use TCP
 
             while (System.currentTimeMillis() - startTime < transmissionTime * 1000) {
-                try(Socket s=new Socket(serverAddress, serverPort);
-                    DataOutputStream toServer =
-                            new DataOutputStream(
-                                    s.getOutputStream());) {
+                try (Socket s = new Socket(serverAddress,serverPort);
+                     DataOutputStream toServer = new DataOutputStream(s.getOutputStream());
+                ) {
+                    //s.setKeepAlive(false);
+                    //s.setReuseAddress(true);
+                    // Header: ID
+                    packetID++;
 
-                        // Header: ID
-                        packetID++;
+                    // influence the performance
+                    if (packetID % N == 0)
+                        delay(k);
 
-                        // influence the performance
-                        if (packetID % N == 0)
-                            delay(k);
+                    toServer.write(createPacket(packetID, bodyBytes).array(), 0, 1416);
 
-                        ByteBuffer dataBuffer = createPacket(packetID, bodyBytes);
+                } catch(NoRouteToHostException e){
+                    // System.err.println("NoRouteToHostException " + packetID);
 
-                        byte[] data = dataBuffer.array();
 
-                        toServer.write(data);
-
-                        toServer.flush();
-
-                } catch (IOException e) {
-                    if(!lostPacketsList.contains(packetID)) {
+                } catch(SocketException e){
+                    //System.err.println("SocketException");
+                    // System.out.println(">> " + packetID);
+                    // e.printStackTrace();
+                }catch(IOException e){
+                    System.err.println("IOException");
+                    if (!lostPacketsList.contains(packetID)) {
                         lostPacketsList.add(packetID);
                         System.out.println("" + packetID);
                         e.printStackTrace();
                     }
-                    // continue;
                 }
             }
         }
@@ -140,25 +158,27 @@ public class Client {
 
         long endTime = System.currentTimeMillis();
         double durationInSeconds = (double)(endTime-startTime)/1000;
+        double packetSizeInkBit = (double) (bodyBytes.length + 16) * 8 / 1000;
 
-        int packetSizeInBit = (bodyBytes.length + 16) * 8;
+        double performanceTheoretical = (double)(N * packetSizeInkBit) / ((double) k / 1000);
+        double performanceEffective = ((double) (packetID * packetSizeInkBit)/durationInSeconds);
 
         System.out.printf("%s client stopped\n\n", ((useUDP) ? "UDP" : "TCP"));
         System.out.printf("Es wurden %d Pakete versendet.\n", packetID);
-        //System.out.printf("%d Pakete wurden evtl. nicht versendet.\n", lostPacketsList.size());
         System.out.printf("Übertragungszeit SOLL/IST [s]: %d/%,.2f\n", transmissionTime, durationInSeconds);
         System.out.printf("Verzögerung Zeit k: %d\n", k);
         System.out.printf("Verzögerung nach Anzahl Pakete N: %d\n", N);
-        System.out.printf("Theoretische Senderate:  %,.2f\n", ((N * packetSizeInBit)/(double) (k+1/1000)));
-        System.out.printf("Tatsächliche Senderate:  %,.2f\n", ((packetID * packetSizeInBit)/durationInSeconds));
+        System.out.printf("Theoretische Senderate:  %,.2f\n", performanceTheoretical);
+        System.out.printf("Tatsächliche Senderate:  %,.2f\n\n", performanceEffective);
 
+        System.out.printf("%d; %d; %f; %d; %d; %f; %f;\n\n", packetID, transmissionTime, durationInSeconds, k, N, performanceTheoretical, performanceEffective);
     }
 
     private static void delay(long k) {
         try {
-            System.out.println("begin sleep");
+            // System.out.println(".");
             Thread.sleep(k);
-            System.out.println("end sleep");
+            // System.out.println("..");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
