@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="ReliableDataTransfer:jar2">
+  <artifact type="jar" build-on-make="true" name="Sender.ReliableDataTransfer:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/FileSender</output-path>
     <root id="archive" name="ReliableDataTransfer.jar">
       <element id="directory" name="META-INF">
