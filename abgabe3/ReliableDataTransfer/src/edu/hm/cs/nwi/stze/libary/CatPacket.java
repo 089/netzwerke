@@ -18,7 +18,7 @@ final class CatPacket {
     /**
      * Size for protocol header
      */
-    private static final int HEADER_SIZE = 1 + 4 + 8;
+    public static final int HEADER_SIZE = 1 + 4 + 8;
 
     /**
      * Max Size for Body

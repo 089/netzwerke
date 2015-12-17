@@ -30,22 +30,56 @@ public class CatReceiverSocket implements AutoCloseable {
         this.state = ReceiverState.WaitForZero;
     }
 
-    public void receive(CatReceiverListener listener) throws IOException, CatException {
+    /**
+     *
+     * @param listener Listener welche die empfangenen Bits ausgibt
+     * @throws IOException
+     * @throws CatException
+     */
+    public void receive(CatReceiverListener listener) throws IOException {
         while (true) {
             // Auf Anfrage warten
 
             byte[] tmp = new byte[CatPacket.MAX_PACKAGE_SIZE];
+            CatPacket catPacket = null;
 
             DatagramPacket packet = new DatagramPacket( tmp, tmp.length );
             socket.receive( packet );
             remoteInetAddress = packet.getAddress();
             remotePort = packet.getPort();
 
-            CatPacket catPacket = CatPacket.fromDatagramPacket(packet);
+            //Wenn das Paket nicht richtig gelesen werden konnte => Auf neues warten
+            try {
+                catPacket = CatPacket.fromDatagramPacket(packet);
+            } catch (CatException e) {
+                continue;
+            }
+
             if(checkPacket(catPacket)) {
+
+                //Letztes Paket?
+                if(isLastPackage(catPacket))
+                    break;
+
                 listener.receiveInputByte(catPacket.getBody());
             }
         }
+    }
+
+    /**
+     * Überprüft ob es sich um das letzte Paket handelt
+     *
+     * @param packet
+     * @return True wenn letztes Paket
+     */
+    private boolean isLastPackage(CatPacket packet) {
+        if(packet.getLength() == 2) {
+            byte[] tmp = packet.getBody();
+            if(tmp[0] == 0xf
+                    && tmp[1] == 0xf)
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -66,7 +100,7 @@ public class CatReceiverSocket implements AutoCloseable {
             } else {
                 udtSend(CatSeqNumber.ACK_ZERO);
                 this.state = ReceiverState.WaitForOne;
-                return  true;
+                return true;
             }
 
         //State 1
@@ -79,13 +113,19 @@ public class CatReceiverSocket implements AutoCloseable {
             } else {
                 udtSend(CatSeqNumber.ACK_ONE);
                 this.state = ReceiverState.WaitForZero;
-                return  true;
+                return true;
             }
         }
 
         return false;
     }
 
+    /**
+     * Sendet ein ACK an den Client
+     *
+     * @param seqNumber
+     * @throws IOException
+     */
     private void udtSend(CatSeqNumber seqNumber) throws IOException {
         CatPacket catPacket = new CatPacket(seqNumber, new byte[0]);
 
