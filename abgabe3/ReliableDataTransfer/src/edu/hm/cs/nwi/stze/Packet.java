@@ -46,7 +46,7 @@ public final class Packet {
      * Überprüft die Checksumme eines Pakets mit der übergebenen Checksumme.
      *
      * @param packet Paket, das eine Checksumme beinhaltet
-     * @param checksum Checksumme, die überprüft wird. 
+     * @param checksum Checksumme, die überprüft wird.
      *
      * @return Liefert true, wenn die Checksummen (Paket und Parameter) übereinstimmen
      */
@@ -83,7 +83,7 @@ public final class Packet {
          * Body haben wir schon ==> Header und Body zusammenfügen
          */
 
-        byte[] data = new byte[body.length + 2 * 8];
+        byte[] data = new byte[body.length + 1 + 4 + 8]; // Die additiven Zahlen müssen dem allokierten Speicher (siehe Header) entsprechen
         ByteBuffer packet = ByteBuffer.wrap(data);
         packet.put(sequenceNumber);
         packet.put(bodyLength);
