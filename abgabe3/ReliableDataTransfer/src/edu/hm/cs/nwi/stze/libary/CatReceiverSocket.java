@@ -7,7 +7,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 /**
- *
+ * CatReceiverSocket empfängt die in viele kleinere Pakete unterteilte Datei mittels
+ * UDP. Es sendet die entsprechenden ACK um dem Sender den Empfang von Paketen zu bestätigen.
  *
  * Praktikum Netzwerke I, Gruppe 02
  *

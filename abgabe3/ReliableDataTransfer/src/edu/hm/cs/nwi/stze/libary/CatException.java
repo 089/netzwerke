@@ -1,7 +1,7 @@
 package edu.hm.cs.nwi.stze.libary;
 
 /**
- *
+ * Die CatException tritt bei korrupten Paketen auf.
  *
  * Praktikum Netzwerke I, Gruppe 02
  *

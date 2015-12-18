@@ -6,10 +6,13 @@ import edu.hm.cs.nwi.stze.libary.CatReceiverSocket;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+/**
+ * Empfängt eine Datei.
+ */
 public class Main {
 
     public static void main(String[] args) throws IOException, CatException {
-        System.out.println("Start Receiver ..");
+        //System.out.println("Start Receiver ..");
 
         try(CatReceiverSocket server = new CatReceiverSocket(4711)) {
             server.receive(body -> {
@@ -18,7 +21,7 @@ public class Main {
             });
         }
 
-        System.out.println("Finish!");
+        //System.out.println("Finish!");
     }
 
     private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");

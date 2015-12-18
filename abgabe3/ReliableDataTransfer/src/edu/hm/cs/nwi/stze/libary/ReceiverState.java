@@ -1,7 +1,7 @@
 package edu.hm.cs.nwi.stze.libary;
 
 /**
- *
+ * Repräsentiert die möglichen Zustände des {@code FileReceiver}s und des {@code FileSender}s.
  *
  * Praktikum Netzwerke I, Gruppe 02
  *

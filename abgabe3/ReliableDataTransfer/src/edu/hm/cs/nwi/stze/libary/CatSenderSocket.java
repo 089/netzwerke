@@ -6,7 +6,9 @@ import java.net.*;
 import java.util.Arrays;
 
 /**
- *
+ * CatSenderSocket unterteilt die Datei in viele kleinere Pakete und verschickt
+ * sie mittels UDP an den Receiver. Die zurückkommenden ACK werden überprüft und
+ * der Zustand entsprechend angepasst.
  *
  * Praktikum Netzwerke I, Gruppe 02
  *

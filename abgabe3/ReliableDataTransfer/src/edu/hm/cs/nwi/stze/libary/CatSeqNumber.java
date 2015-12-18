@@ -1,7 +1,7 @@
 package edu.hm.cs.nwi.stze.libary;
 
 /**
- *
+ * Repräsentiert die alternierende Sequenznummer der Pakete.
  *
  * Praktikum Netzwerke I, Gruppe 02
  *
