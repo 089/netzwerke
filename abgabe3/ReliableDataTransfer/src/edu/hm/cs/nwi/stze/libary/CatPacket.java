@@ -99,7 +99,7 @@ final class CatPacket {
          * Body haben wir schon ==> Header und Body zusammenfügen
          */
 
-        byte[] data = new byte[body.length + HEADER_SIZE]; // Die additiven Zahlen müssen dem allokierten Speicher (siehe Header) entsprechen
+        byte[] data = new byte[body.length + HEADER_SIZE]; 
 
         //Erstellt das Packet
         ByteBuffer packet = ByteBuffer.wrap(data);
