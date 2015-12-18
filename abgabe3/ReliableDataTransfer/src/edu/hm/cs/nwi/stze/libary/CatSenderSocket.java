@@ -1,15 +1,16 @@
 package edu.hm.cs.nwi.stze.libary;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
 import java.util.Arrays;
 
 /**
- * Created by Kevin on 17.12.2015.
  *
- * @author stieglit
+ *
+ * Praktikum Netzwerke I, Gruppe 02
+ *
+ * @author <a href="Stieglit@hm.edu">Kevin Stieglitz</a>, <a href="Zell@hm.edu">Martin Zell</a>
  * @version 1.0
  */
 public class CatSenderSocket {
@@ -28,10 +29,10 @@ public class CatSenderSocket {
     private ReceiverState receiverState;
 
     /**
-     * Grundklasse zum versenden über das Cat-Protocol :)
+     * Grundklasse zum Versenden über das Cat-Protocol :)
      *
-     * @param inetAddress
-     * @param port
+     * @param inetAddress IP-Adresse oder Hostname
+     * @param port Port
      */
     public CatSenderSocket(InetAddress inetAddress, int port) {
         this.inetAddress = inetAddress;
@@ -40,7 +41,7 @@ public class CatSenderSocket {
 
     /**
      * Sendet einen Stream über UDP
-     * Unterteil den Stream in mehrere Pakete
+     * Unterteil den Stream in mehrere Pakete einer bestimmten Größe und Formats {@code CatPacket}.
      *
      * @param stream InputStream
      * @throws IOException Wenn der Stream nicht gelesen werden kann
@@ -72,7 +73,7 @@ public class CatSenderSocket {
      * @throws IOException
      */
     private void sendPacket(byte[] buffer, DatagramSocket socket) throws IOException {
-        DatagramPacket rdtPacket = createRdtPackage(buffer);
+        DatagramPacket rdtPacket = createRdtPacket(buffer);
 
         //Solange wiederholen bis ACK ok ist.
         do {
@@ -85,7 +86,7 @@ public class CatSenderSocket {
      * Check das DatagramSocket ob das korrekte ACK kommt
      *
      * @param socket
-     * @return True wenn das korrekte ACK empfangen wurde
+     * @return True, wenn das korrekte ACK empfangen wurde
      * @throws IOException
      */
     private boolean checkACK(DatagramSocket socket) throws IOException {
@@ -128,12 +129,12 @@ public class CatSenderSocket {
     }
 
     /**
-     * Erstellt ein rdt Packet für die Übertragung
+     * Erstellt ein Packet mit dem definierten Format ({@code CatPacket}) für die Übertragung
      *
      * @param buffer Paketinhalt
-     * @return
+     * @return Paket vom Typ {@code DatagramPacket} mit dem Format {@code CatPacket}
      */
-    private DatagramPacket createRdtPackage(byte[] buffer) {
+    private DatagramPacket createRdtPacket(byte[] buffer) {
         CatSeqNumber seqNumber = CatSeqNumber.ACK_ZERO;
 
         if(this.receiverState == ReceiverState.WaitForOne)
@@ -141,7 +142,7 @@ public class CatSenderSocket {
 
         CatPacket catPacket = new CatPacket(seqNumber, buffer);
         byte[] data = catPacket.toByte();
-        DatagramPacket packet = new DatagramPacket( data, data.length, this.inetAddress, this.port);
+        DatagramPacket packet = new DatagramPacket(data, data.length, this.inetAddress, this.port);
 
         return packet;
     }

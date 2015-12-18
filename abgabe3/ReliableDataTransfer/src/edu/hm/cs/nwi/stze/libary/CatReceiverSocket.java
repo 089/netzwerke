@@ -7,9 +7,11 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 /**
- * Created by Kevin on 17.12.2015.
  *
- * @author stieglit
+ *
+ * Praktikum Netzwerke I, Gruppe 02
+ *
+ * @author <a href="Stieglit@hm.edu">Kevin Stieglitz</a>, <a href="Zell@hm.edu">Martin Zell</a>
  * @version 1.0
  */
 public class CatReceiverSocket implements AutoCloseable {
@@ -24,6 +26,7 @@ public class CatReceiverSocket implements AutoCloseable {
      * Konstruktor
      *
      * @param port Port auf dem gehört wird
+     * @throws SocketException Fehler mit dem Socket
      */
     public CatReceiverSocket(int port) throws SocketException {
         this.socket = new DatagramSocket( port );
@@ -33,8 +36,7 @@ public class CatReceiverSocket implements AutoCloseable {
     /**
      *
      * @param listener Listener welche die empfangenen Bits ausgibt
-     * @throws IOException
-     * @throws CatException
+     * @throws IOException Fehler mit Streams
      */
     public void receive(CatReceiverListener listener) throws IOException {
         while (true) {

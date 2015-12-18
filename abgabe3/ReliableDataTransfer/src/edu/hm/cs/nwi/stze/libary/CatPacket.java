@@ -6,8 +6,12 @@ import java.util.Arrays;
 import java.util.zip.CRC32;
 
 /**
- * Die Klasse Packet stellt Hilfsmethoden für den Umgang mit Paketen bereit.
- * Kann nur in der jeweiligen Package aufgerufen werden
+ *
+ *
+ * Praktikum Netzwerke I, Gruppe 02
+ *
+ * @author <a href="Stieglit@hm.edu">Kevin Stieglitz</a>, <a href="Zell@hm.edu">Martin Zell</a>
+ * @version 1.0
  */
 final class CatPacket {
     /**
@@ -99,7 +103,7 @@ final class CatPacket {
          * Body haben wir schon ==> Header und Body zusammenfügen
          */
 
-        byte[] data = new byte[body.length + HEADER_SIZE]; 
+        byte[] data = new byte[body.length + HEADER_SIZE];
 
         //Erstellt das Packet
         ByteBuffer packet = ByteBuffer.wrap(data);
