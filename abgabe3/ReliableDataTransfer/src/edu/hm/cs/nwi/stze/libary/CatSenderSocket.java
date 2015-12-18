@@ -3,6 +3,7 @@ package edu.hm.cs.nwi.stze.libary;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
@@ -46,9 +47,10 @@ public class CatSenderSocket {
      * Unterteil den Stream in mehrere Pakete einer bestimmten Größe und Formats {@code CatPacket}.
      *
      * @param stream InputStream
+     * @param filename Dateiname der zu übertragenden Datei
      * @throws IOException Wenn der Stream nicht gelesen werden kann
      */
-    public void send(InputStream stream) throws IOException {
+    public void send(InputStream stream, String filename) throws IOException {
         this.receiverState = ReceiverState.WaitForZero;
 
         try(DatagramSocket socket = new DatagramSocket(ACK_PORT)) {
@@ -62,8 +64,16 @@ public class CatSenderSocket {
                 sendPacket(buffer, socket);
             }
 
-            //Sende ein 0xf 0xf zum schließen am Ende
-            sendPacket(new byte[] {0xf, 0xf}, socket);
+            //Sende Dateinamen von 0xf 0xf umgeben zum Schließen am Ende
+            int filenameLength = filename.getBytes().length;
+            byte[] lastPacket = new byte[filenameLength + 4];
+            lastPacket[0] = 0xf;
+            lastPacket[1] = 0xf;
+            lastPacket[lastPacket.length - 2] = 0xf;
+            lastPacket[lastPacket.length - 1] = 0xf;
+            System.arraycopy(filename.getBytes(), 0, lastPacket, 2, filenameLength);
+
+            sendPacket(lastPacket, socket);
         }
     }
 

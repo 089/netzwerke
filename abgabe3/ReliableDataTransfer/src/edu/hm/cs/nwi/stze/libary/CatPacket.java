@@ -15,9 +15,9 @@ import java.util.zip.CRC32;
  */
 final class CatPacket {
     /**
-     * Max Package Size für DatagramPacket
+     * Max Packet Size für DatagramPacket
      */
-    public static final int MAX_PACKAGE_SIZE = 1024;
+    public static final int MAX_PACKET_SIZE = 1024;
 
     /**
      * Size for protocol header
@@ -27,7 +27,7 @@ final class CatPacket {
     /**
      * Max Size for Body
      */
-    public static final int MAX_BODY_SIZE = MAX_PACKAGE_SIZE - HEADER_SIZE;
+    public static final int MAX_BODY_SIZE = MAX_PACKET_SIZE - HEADER_SIZE;
 
     private CatSeqNumber seqNumber;
     private long checksum;
@@ -154,14 +154,14 @@ final class CatPacket {
 
         ByteBuffer buffer = ByteBuffer.wrap(packet.getData());
 
-        //Get Seq
+        //Get Seq = 1 byte
         byte seq = buffer.get(0);
         CatSeqNumber seqNumber = CatSeqNumber.values()[seq];
 
-        //Get Length
+        //Get Length = 4 byte
         int length = buffer.getInt(1);
 
-        //Get Checksum
+        //Get Checksum = 8 Byte
         long checksum = buffer.getLong(5);
         byte [] body;
 

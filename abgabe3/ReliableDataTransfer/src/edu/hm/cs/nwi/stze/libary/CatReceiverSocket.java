@@ -23,6 +23,8 @@ public class CatReceiverSocket implements AutoCloseable {
     InetAddress remoteInetAddress;
     int remotePort;
 
+    String filename;
+
     /**
      * Konstruktor
      *
@@ -43,7 +45,7 @@ public class CatReceiverSocket implements AutoCloseable {
         while (true) {
             // Auf Anfrage warten
 
-            byte[] tmp = new byte[CatPacket.MAX_PACKAGE_SIZE];
+            byte[] tmp = new byte[CatPacket.MAX_PACKET_SIZE];
             CatPacket catPacket = null;
 
             DatagramPacket packet = new DatagramPacket( tmp, tmp.length );
@@ -61,8 +63,9 @@ public class CatReceiverSocket implements AutoCloseable {
             if(checkPacket(catPacket)) {
 
                 //Letztes Paket?
-                if(isLastPackage(catPacket))
+                if(isLastPackage(catPacket)) {
                     break;
+                }
 
                 listener.receiveInputByte(catPacket.getBody());
             }
@@ -76,13 +79,27 @@ public class CatReceiverSocket implements AutoCloseable {
      * @return True wenn letztes Paket
      */
     private boolean isLastPackage(CatPacket packet) {
-        if(packet.getLength() == 2) {
+        if(packet.getLength() < packet.MAX_BODY_SIZE) {
             byte[] tmp = packet.getBody();
+
+            // Im letzten Paket steht der Dateiname umgeben von jeweils zwei 0xf
             if(tmp[0] == 0xf
-                    && tmp[1] == 0xf)
+                    && tmp[1] == 0xf
+                    && tmp[tmp.length-2] == 0xf
+                    && tmp[tmp.length-1] == 0xf
+                    ) {
+
+                // extract filename
+                this.filename = new String(tmp, 2, tmp.length-4);
+
                 return true;
+            }
         }
         return false;
+    }
+
+    public String getFilename() {
+        return filename;
     }
 
     /**

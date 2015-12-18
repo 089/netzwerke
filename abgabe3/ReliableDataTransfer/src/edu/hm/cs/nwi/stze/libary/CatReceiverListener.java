@@ -1,5 +1,7 @@
 package edu.hm.cs.nwi.stze.libary;
 
+import java.io.IOException;
+
 /**
  * Das Interface CatReceiverListener wird benötigt, um in der Klasse {@code CatReceiverSocket},
  * Methode {@code receive} auf den in der Main übergebenen body zugreifen zu können.
@@ -10,5 +12,5 @@ package edu.hm.cs.nwi.stze.libary;
  * @version 1.0
  */
 public interface CatReceiverListener {
-    void receiveInputByte(byte[] input);
+    void receiveInputByte(byte[] input) throws IOException;
 }

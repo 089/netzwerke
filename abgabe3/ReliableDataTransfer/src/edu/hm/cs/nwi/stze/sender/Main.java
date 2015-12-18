@@ -41,7 +41,7 @@ public class Main {
         CatSenderSocket socket = new CatSenderSocket(ia, port);
         try(InputStream in = new FileInputStream(filename))
         {
-            socket.send(in);
+            socket.send(in, filename);
         }
 
         System.out.println("Fertig!");
