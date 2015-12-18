@@ -88,7 +88,7 @@ final class CatPacket {
         /*
          * Header
          *
-         * allocate(x); byt: x=1, int: x=4, long: x=8
+         * allocate(x); byte: x=1, int: x=4, long: x=8
          */
 
         byte[] sequenceNumber = ByteBuffer.allocate(1).put(this.seqNumber.getSeqNumber()).array();
