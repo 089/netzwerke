@@ -41,6 +41,8 @@ public class Main {
         CatSenderSocket socket = new CatSenderSocket(ia, port);
         try(InputStream in = new FileInputStream(filename))
         {
+            System.out.printf("Startzeit [ms]: %d\n", System.currentTimeMillis());
+
             socket.send(in, filename);
         }
 

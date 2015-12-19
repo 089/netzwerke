@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.Map;
 
 /**
  * CatReceiverSocket empfängt die in viele kleinere Pakete unterteilte Datei mittels
@@ -37,11 +38,17 @@ public class CatReceiverSocket implements AutoCloseable {
     }
 
     /**
+     * Emprängt die einzelnen Pakete und reicht sie nach oben durch.
      *
      * @param listener Listener welche die empfangenen Bits ausgibt
+     * @param errors gewünschte Fehler die absichtlich eingebaut werden um die Funktionalität des Protokolls zu testen
      * @throws IOException Fehler mit Streams
      */
-    public void receive(CatReceiverListener listener) throws IOException {
+    public void receive(CatReceiverListener listener, Map<CatPacketError, Double> errors) throws IOException {
+
+        int resendPacket; // Wie oft soll das selbe Packet empfangen werden?
+
+        receiving:
         while (true) {
             // Auf Anfrage warten
 
@@ -53,22 +60,56 @@ public class CatReceiverSocket implements AutoCloseable {
             remoteInetAddress = packet.getAddress();
             remotePort = packet.getPort();
 
-            //Wenn das Paket nicht richtig gelesen werden konnte => Auf neues warten
-            try {
-                catPacket = CatPacket.fromDatagramPacket(packet);
-            } catch (CatException e) {
+            // Absichtlich einen Fehler eingebauen mit der Eintrittswahrscheinlichkeit:
+            double probabilityOfOccurrence = Math.random();
+
+            // Wir produzieren einen (einzelnen) Bitfehler
+            if(errors.containsKey(CatPacketError.BIT) && probabilityOfOccurrence <= errors.get(CatPacketError.BIT)) {
+                byte[] data = packet.getData();
+
+                // Wir invertieren das letzte Bit im ersten Byte des Bodys mittels XOR
+                data[CatPacket.HEADER_SIZE] = (byte) (data[CatPacket.HEADER_SIZE] ^ 0b00000001);
+
+                packet.setData(data);
+            }
+
+            // ABSICHTLICHER FEHLER: Paket wird verworfen, weil der Rest der Schleife nicht mehr abgearbeitet wird.
+            if(errors.containsKey(CatPacketError.DISCARD) && probabilityOfOccurrence <= errors.get(CatPacketError.DISCARD)) {
                 continue;
             }
 
-            if(checkPacket(catPacket)) {
+            // ABSICHTLICHER FEHLER: Paket wird verworfen, weil der Rest der Schleife nicht mehr abgearbeitet wird.
+            if(errors.containsKey(CatPacketError.DISCARD) && probabilityOfOccurrence <= errors.get(CatPacketError.DISCARD)) {
+                continue;
+            }
 
-                //Letztes Paket?
-                if(isLastPackage(catPacket)) {
-                    break;
+            // ABSICHTLICHER FEHLER: Paket wird dupliziert
+            if(errors.containsKey(CatPacketError.DUPLICATE) && probabilityOfOccurrence <= errors.get(CatPacketError.DUPLICATE)) {
+                resendPacket = 2;
+            } else {
+                resendPacket = 1;
+            }
+
+            // evtl. bei Fehler mehrfach "empfangen"
+            for(int i = 0; i < resendPacket; i++) {
+                //Wenn das Paket nicht richtig gelesen werden konnte => Auf neues warten
+                try {
+                    catPacket = CatPacket.fromDatagramPacket(packet);
+                } catch (CatException e) {
+                    continue;
                 }
 
-                listener.receiveInputByte(catPacket.getBody());
+                if (checkPacket(catPacket)) {
+
+                    //Letztes Paket?
+                    if (isLastPackage(catPacket)) {
+                        break receiving; // wir müssen die while Schleife verlassen, nicht das for!
+                    }
+
+                    listener.receiveInputByte(catPacket.getBody());
+                }
             }
+
         }
     }
 
@@ -91,6 +132,8 @@ public class CatReceiverSocket implements AutoCloseable {
 
                 // extract filename
                 this.filename = new String(tmp, 2, tmp.length-4);
+
+                System.out.println(this.filename);
 
                 return true;
             }
