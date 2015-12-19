@@ -20,7 +20,7 @@ public class Main {
             FileOutputStream fos = new FileOutputStream(tempFilename);
         ) {
             server.receive(body -> {
-                // Datei
+                // Datei schreiben
                 fos.write(body);
             });
 
