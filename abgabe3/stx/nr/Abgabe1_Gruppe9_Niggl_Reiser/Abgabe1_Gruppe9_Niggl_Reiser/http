@@ -1,0 +1,8 @@
+service http
+{
+	socket_type	= stream
+	protocol		= tcp
+	wait			= no
+	user			= root
+	server		= /home/network/Dokumente/Aufgabe_1.2/U1_Aufg2_Gruppe_9.sh
+}
